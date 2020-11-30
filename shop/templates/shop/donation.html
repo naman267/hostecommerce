@@ -1,0 +1,114 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Donation page {% endblock %}
+{% block css%}
+body{
+      
+ background:linear-gradient(to right,#FE8A65,#FEBD9F,#FE9C77)
+}
+{% endblock%}
+{% block body %} 
+
+<div class="container my-4">
+
+<h2 class="flex justify-center">DONATE ANYTHING YOU WANT</h2>
+<div><h5>1. As the world is hit by many calamities it is the responsiblity of every human being to help other in need</h5></div>
+<div><h5>2. Donate anything you want</h5></div>
+<div><h5>3. Ngo near to your place will come to collect your donations</h5></div>
+
+<form method="post" action="/shop/Donate">{% csrf_token %}
+  <div class="form-group">
+    <label for="name">Name of Item</label>
+    <input type="name" class="form-control" name="name" id="name" >
+   
+  </div>
+  <div class="form-group">
+    <label for="quantity">quantity</label>
+    <input type="name" name="quantity" class="form-control" id="quantitiy">
+  </div>
+
+   <div class="form-group">
+    <label for="adderess">Adderess</label>
+    <input type="name" class="form-control" name="adderess" id="adderess">
+  </div>
+
+   <div class="form-group">
+    <label for="phone">Phone-No</label>
+    <input type="phone" class="form-control" name="phone" id="phone">
+  </div>
+ 
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+</div>
+
+{% endblock %}
+{% block js%}
+<script>
+{% if ok %}
+alert("Thanks for donating")
+doucument.location="/shop/Donate"
+{% endif %}
+</script>
+
+
+<script>
+recommend=JSON.parse(localStorage.getItem('recommend'));
+cart=JSON.parse(localStorage.getItem('cart'));
+function savecart()
+    {if(cart==null)
+        {
+            cart={};
+        }
+     $('#cartJson').val(JSON.stringify(cart))
+     $('#recommend').val(JSON.stringify(recommend))
+     localStorage.clear()
+      
+    }
+</script>
+<script>
+var cart = JSON.parse(localStorage.getItem('cart'));
+
+//Add Popover to cart
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+    //   console.log('We are inside updatePopover');
+    var popStr = "";
+    popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+    // console.log(cart)
+    for (var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+        i = i + 1;
+    }
+    popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+    // console.log(popStr);
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+}
+
+function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+
+    localStorage.clear();
+    cart = {};
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updatePopover(cart);
+}
+
+
+var sum = 0;
+
+for (var item in cart) {
+    sum = sum + cart[item][0];
+
+}
+
+document.getElementById('cart').innerHTML = sum;
+console.log(cart);
+updatePopover(cart);
+</script>
+{% endblock %}
