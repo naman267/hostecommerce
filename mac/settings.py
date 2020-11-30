@@ -25,7 +25,7 @@ SECRET_KEY = 'g)@76*7no&(#-n@zw=2k#2%@d%ci-6sm7i3gbg1s%-p$ff0k)('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','https://trackerecommerce.herokuapp.com/']
 
 
 # Application definition
